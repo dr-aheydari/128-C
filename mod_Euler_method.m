@@ -17,8 +17,7 @@ modi_euler(f,a,b,y_a,h)
 function E = modi_euler(f,a,b,y_a,h)
     N = ceil( (b-a)/h ); 
     % Compute N, rounding up to nearest integer if necessary
-    % changing this to be an array so we could use t_i and t_i+1 at the...
-    % ...same time
+  
     
     t = a;
     w = y_a;
