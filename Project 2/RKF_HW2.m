@@ -3,7 +3,10 @@
 % Ali Heydari (team members Alina G., Derek M.)
 %
 % Runge-Kutta Fehlberg method
+% this could be an interactive code but for ease of use, we have made it a
+% menu option
 
+% --------------------------------------------------------------------- %
 % format long;
 % a = input('What is a?\n');
 % b = input('What is b?\n');
@@ -12,23 +15,102 @@
 % tol = input('What is the tolerance (epsilon) ?\n'); 
 % %f = @(t,y) exp(t-y);
 % f = input('what is y_prime?(type @(t,y) [then the function])');
+% --------------------------------------------------------------------- %
 
-%  a = -5 ;
-%  b = 5;%-1 * a;
-% %  ya = 100 / ((-a - 2)^4 + 1);
-a = 0;
-b = 2;
-y_a = 0.5;
+inp = input('Please press 1 to see the graph for a == 5 \n or press 2 to see for a == 10 \n');
+
+% when a == 5
+if (inp == 1)
+% this just to initilize t
+a = -5; % actual a value is a = 5
+b = 5;
+% given
+y_a = 100 / ((a - 2)^4 + 1);
+% initial guess
 hmax = .25;
-hmin = .01;
-tol = 10 ^ (-5); 
-%  tol = tol;
-%  f = @(t,y) (-1 / 25) * ((t - 2)^(3)) * y^(2) ;
-f = @(t,y) y - t^2 + 1;
+% our pick for smallest h step
+hmin = .0001;
+%first tolerance
+tol = 10 ^ (-7); 
+ f = @(t,y) (-1 / 25) * ((t - 2)^(3)) * y^(2) ;
 
-RKF(f,a,b,y_a,hmax, hmin,tol);
+[E] = RKF(f,a,b,y_a,hmax, hmin,tol);
 
-function [RKF] = RKF(f,a,b,y_a, hmax, hmin,tol)
+
+plot(E(:,1),E(:,2));
+title('RKF approximation');
+xlabel('Time');
+ylabel('Approximation using RK-Fehlberg');
+
+hold on
+plot(E(:,1),E(:,3));
+
+tol = 10 ^ (-11); 
+
+[E] = RKF(f,a,b,y_a,hmax, hmin,tol);
+
+ plot(E(:,1),E(:,2));
+% title('RKF approximation');
+% xlabel('Time');
+% ylabel('Approximation using RK-Fehlberg');
+ plot(E(:,1),E(:,3));
+
+ fplot(@(x) 100 / ((x - 2)^4 + 1),[-5 5],'r')
+grid on
+
+legend('esp = 10^-7','h steps for 10^-7', 'eps = 10^-11', ' h steps for 10^-11', 'Exact Solution');
+
+hold off
+
+end 
+
+% when a  == 10
+
+if (inp == 2)
+
+a = -10; 
+b = 10;
+% given
+y_a = 100 / ((a - 2)^4 + 1);
+% initial guess
+hmax = .1;
+% our pick for smallest h step
+hmin = .00001;
+%first tolerance
+tol = 10 ^ (-7); 
+f = @(t,y) (-1 / 25) * ((t - 2)^(3)) * y^(2) ;
+
+[E] = RKF(f,a,b,y_a,hmax, hmin,tol);
+
+
+plot(E(:,1),E(:,2));
+title('RKF approximation');
+xlabel('Time');
+ylabel('Approximation using RK-Fehlberg');
+hold on
+plot(E(:,1),E(:,3));
+
+tol = 10 ^ (-11); 
+[E] = RKF(f,a,b,y_a,hmax, hmin,tol);
+
+plot(E(:,1),E(:,2));
+title('RKF approximation');
+xlabel('Time');
+ylabel('Approximation using RK-Fehlberg');
+plot(E(:,1),E(:,3));
+
+fplot(@(x) 100 / ((x - 2)^4 + 1),[-10 10],'r')
+
+grid on
+
+legend('esp = 10^-7','h steps for 10^-7', 'eps = 10^-11', ' h steps for 10^-11', 'Exact Solution');
+
+hold off
+end 
+
+
+
+function [E] = RKF(f,a,b,y_a, hmax, hmin,tol)
 % we got the user input in the main
 
 t = a;
@@ -78,16 +160,16 @@ E(1,:) = [t w h];
 %         disp(R);
         
         if (R <= tol)
-            disp(h);
+%             disp(h);
             t = t + h; % approximation accepted
             w = w + (((25 / 216) * k1) + ((1408 / 2565) * k3) ...
                 + ((2197 / 4104) * k4) - ((1 / 5) * k5));
         % OUTPUT HERE ACCORDING TO THE BOOK
-         E(i+1,:) = [t w h]
+         E(i+1,:) = [t w h];
 %          FLAG = 1;
         end
         
-            
+         % in the book   
         q = 0.84 * (tol / R)^(1 / 4);
         
         if (q <= 0.1)
@@ -125,24 +207,20 @@ E(1,:) = [t w h];
             FLAG = 0;
             fprintf(" min h exceeded ! \n");
             
-             end
+            end
 %         if (R > tol)
 %            
 %             fprintf("THIS IS WAY TOO BIG %i instead of h \n", h);
 %             FLAG = 0;
 %         end
 %         
-        % skipping hmax step for now since we didn't ask for it
     
-        E(i+1,:) = [t w h]
+        E(i+1,:) = [t w h];
+        
         i = i + 1;
+        OUT = E;
     end
     
+%     disp("Columns are : t, w, h respectively");
     end
     
- 
-
-% fprintf("did this work?\n");
-% fprintf(" h is %i \n",h);
-% fprintf(" w is %i \n",w);
-% fprintf(" t is %i \n",t);
