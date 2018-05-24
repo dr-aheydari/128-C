@@ -14,9 +14,11 @@ init_vak = [500 500];
 % [t, X] = ode45(@(t,X) lot_vot(t,X,0.01), tsteps, init_vak);
 
 
-
+%% plotting the population vs time for multiple values of alpha
 
 % plotting the phase plane
+
+%% uncomment this to see the phase plots
 % figure;
 % plot(X(:,1), X(:,2));
 % xlabel('Rabbit');
@@ -24,8 +26,7 @@ init_vak = [500 500];
 % grid on;
 % 
 % title('ORIGINAL MODEL: Phase plane of Fox bs Rabbit when r_0 = 300, f_0 = 150');
-% 
-
+%
 
 
 % plot the population vs time
@@ -55,14 +56,7 @@ title(['Using alpha = ' num2str(alphas(i)) ' in Pop. vs Time']); %')
 % grid on;
 % 
  end
-% figure;
-% plot(t, X(:,1), 'DisplayName', 'r(t)'); % Plot r(t) <- 1st col of X
-% hold on;
-% plot(t, X(:,2), 'DisplayName', 'f(t)'); % Plot f(t) <- 2nd col of X
-% grid on;
-% xlabel('Time');
-% ylabel('Population');
-% legend('show')
+
 
 % title('ORIGINAL MODEL: When r_0 = 300, f_0 = 150')
 
