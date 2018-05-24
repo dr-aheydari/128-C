@@ -112,6 +112,9 @@
 % STEP 3
  W1(1) = ALPHA;
  W2(1) = TK;
+ 
+ W1_prev = W1;
+ 
 %  U1 = 0 ;
 %  U2 = 1;
 % STEP 4
@@ -141,7 +144,6 @@
 %  K42 = H*(FY(X+H,W1(I),W2(I))*(U1+K31)+FYP(X+H,W1(I),W2(I))*(U2+K32));
 %  U1 = U1+(K11+2*(K21+K31)+K41)/6;
 %  U2 = U2+(K12+2*(K22+K32)+K42)/6; 
-
  end;
 % STEP 7
 % test for accuracy
@@ -172,7 +174,7 @@
      TK = TK + (BETA - W1(N+1))/(B - A);
  else
      TK_temp = TK;
-     TK = TK-((W1(N+1)-BETA)*(TK - TK_prev))/(W1(N+1) - W1(N));
+     TK = TK-((W1(N+1)-BETA)*(TK - TK_prev))/(W1(N+1) - W1_prev(N+1));
      TK_prev = TK_temp;
  end
      K = K+1;
