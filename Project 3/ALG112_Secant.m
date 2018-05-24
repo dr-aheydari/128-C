@@ -134,20 +134,11 @@
  K42 = H*F(X+H,W1(I)+K31,W2(I)+K32);
  W1(I+1) = W1(I)+(K11+2*(K21+K31)+K41)/6;
  W2(I+1) = W2(I)+(K12+2*(K22+K32)+K42)/6;
-%  K11 = H*U2;
-%  K12 = H*(FY(X,W1(I),W2(I))*U1+FYP(X,W1(I),W2(I))*U2);
-%  K21 = H*(U2+0.5*K12);
-%  K22 = H*(FY(T,W1(I),W2(I))*(U1+0.5*K11)+FYP(T,W1(I),W2(I))*(U2+0.5*K21));
-%  K31 = H*(U2+0.5*K22);
-%  K32 = H*(FY(T,W1(I),W2(I))*(U1+0.5*K21)+FYP(T,W1(I),W2(I))*(U2+0.5*K22));
-%  K41 = H*(U2+K32);
-%  K42 = H*(FY(X+H,W1(I),W2(I))*(U1+K31)+FYP(X+H,W1(I),W2(I))*(U2+K32));
-%  U1 = U1+(K11+2*(K21+K31)+K41)/6;
-%  U2 = U2+(K12+2*(K22+K32)+K42)/6; 
+
  end;
 % STEP 7
 % test for accuracy
-% if abs(W1(N+1)-BETA) < TOL
+if abs(W1(N+1)-BETA) < TOL
 % STEP 8
  I = 0;
  fprintf(OUP, '%3d %13.8f %13.8f %13.8f\n', I, A, ALPHA, TK);
@@ -156,12 +147,6 @@
  X = A+I*H;
  fprintf(OUP, '%3d %13.8f %13.8f %13.8f\n', I, X, W1(J), W2(J));
  end;
- 
-% For testing
- disp(newline)
- % test for accuracy
- if abs(W1(N+1)-BETA) < TOL
- 
  fprintf(OUP, 'Convergence in %d iterations\n', K);
  fprintf(OUP, ' t = %14.7e\n', TK);
 % STEP 9
